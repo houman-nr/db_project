@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>user menu</title>
+    <h1>Borrowed books</h1>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -159,49 +160,24 @@
         <a href="">Logout</a>
     </div>
     
-    
-    <!-- Advanced Search Form -->
-    <div class="search_container">
-        <form method="get">
-            <input type="text" id="searchTitle" name="title" placeholder="Search by title..." value="{{ request.GET.title }}">
-            <input type="text" id="searchAuthor" name="author" placeholder="Search by author..." value="{{ request.GET.author }}">
-            <input type="text" id="searchPublisher" name="publisher" placeholder="Search by publisher..." value="{{ request.GET.publisher }}">
-            <input type="submit" value="Search">
-        </form>
-    </div>
-
     <div class="table-container">
-        <table id="bookTable">
+        <table>
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Publisher</th>
-                <th>Action</th>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>ISBN</th>
+                <th>Order Date</th>
+                <th>Return Date</th>
+                <th>Return</th>
             </tr>
-            <!-- BEGIN: Loop through books retrieved from the database -->
-            {% if books is not empty %}
-                {% for book in books %}
-                    <tr>
-                        <td>{{ book.title }}</td>
-                        <td>{{ book.author.name }}</td>
-                        <td>{{ book.price }}$</td>
-                        <td>{{ book.stock }}</td>
-                        <td>{{ book.publisher }}</td>
-                        <td>
-                            <form method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="book_id" value="{{ book.id }}">
-                                <input type="submit" value="Borrow">
-                                <input id="amount" type="number" name="amount" default="1">
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-            <!-- END: Loop through books retrieved from the database -->
+            {% for book in books %}
+            <tr>
+                <td>{{ book.book_name }}</td>
+                <td>{{ book.author_name }}</td>
+                <td>{{ book.borrowed_date }}</td>
+                <td><a class="btn">Return</a></td>
+            </tr>
+            {% endfor %}
         </table>
-    </div>
 </body>
 </html>

@@ -45,7 +45,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     borrowed_books = models.ManyToManyField(Book, through='Borrow')
     
-    @classmethod
+    @staticmethod
     def get_borrowed_books(user):
         user_profile = UserProfile.objects.get(user=user)
         borrowed_books = user_profile.borrowed_books.all()
@@ -56,3 +56,8 @@ class Borrow(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     borrow_date = models.DateTimeField(auto_now_add=True)
+    
+    @classmethod
+    def create_borrow(cls, user_profile, book):
+        borrow = cls(user_profile=user_profile, book=book)
+        borrow.save()

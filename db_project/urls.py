@@ -25,6 +25,7 @@ urlpatterns = [
     path('forgot_pwd/', views.forgot_pwd_view),
     
     path('user_menu/', views.user_menu_view),
+    path('user_menu/my_books/', views.my_books_view),
     
     path('staff_menu/', views.staff_view),
     path('create_book/', views.create_book_view),

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from .models import Book, Author
+from .models import Book, Author, Borrow, UserProfile
 from django.db.models import Q
 
 # landing page
@@ -112,13 +112,33 @@ def user_menu_view(request):
         books = Book.objects.filter(
             Q(title__icontains=title_query) &
             Q(author__name__icontains=author_query) &
-            Q(publisher__name__icontains=publisher_query)
+            Q(publisher__icontains=publisher_query)
         )
         
         # check if books are available
         books = book_ava_stocks(books)
         
+        # Get the book the user wants to borrow
+        book_id = request.POST.get('book_id')
+        amount = request.POST.get('amount')
+        book = Book.objects.get(id=book_id)
+
+        # Get the current user
+        temp_username = request.session.get('username')
+        user = UserProfile.objects.get(User.objects.get(username=temp_username))
+
+        # Create a new Borrow object
+        Borrow.create_borrow(user, book)
+        
+        # make necessary changes to the book table
+        Book.borrow_book(book, amount)
+        
     return render(request, 'user_menu.html', {'books': books})
+
+def my_books_view(request):
+    user = User.objects.get(username=request.session.get('username'))
+    borrowed_books = UserProfile.get_borrowed_books(user)
+    return render(request, 'my_books.html', {'books': borrowed_books})
 
 def check_out_view(request):
     return render(request, 'check_out.html')
@@ -126,6 +146,6 @@ def check_out_view(request):
 def book_ava_stocks(books):
     for book in books:
         if book.stock <= 0:
-            #remove from books
+            #remove from books list
             books.remove(book)
     return books
