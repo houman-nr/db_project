@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sign in</title>
+</head>
+<body>
+    {% csrf_token %}
+    <h1>Welcome back {{ name }}</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #000000;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <div class="container">
+        <div class="section">
+            <h1>Create Book</h1>
+            <p>for creating New books:</p>
+            <a href="/create_book/" class="btn">Create Book</a>
+        </div>
+        <div class="section">
+            <h1>Create Book Author</h1>
+            <p>for creating New Author:</p>
+            <a href="/Create_author/" class="btn">Create Author</a>
+        </div>
+        <div class="section">
+            <h1>Edit books</h1>
+            <p>for editing already existing books:</p>
+            <a href="" class="btn">Sign Up</a>
+        </div>
+        <div class="section">
+            <h1>User management</h1>
+            <p>managing users</p>
+            <a href="/user_management" class="btn">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

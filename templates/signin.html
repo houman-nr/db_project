@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sign in</title>
+</head>
+<body>
+    <h1>sign in either as:</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #000000;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type=text], 
+        input[type=password] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        input[type=checkbox] {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <div class="flex-container">
+        <div>
+            <form id="userForm" method="post">
+                <h2>User</h2>
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username"><br><br>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"><br><br>
+                
+                <input type="checkbox"> Remember me<br>
+                <a href="/forgot_pwd/">Forgot password</a><br><br>
+                <button type="submit" class="btn">Submit</button>
+                {% if error_user %}
+                    <p style="color: red;">{{ error_user }} </p>
+                {% endif %}
+            </form>
+        </div>
+        <div>
+            <form id="staffForm" method="post">
+                <h2>Staff memeber</h2>
+                {% csrf_token %}
+                <label for="staff_username">Staff ID:</label>
+                <input type="text" id="staff_username" name="staff_username"><br><br>
+            
+                <label for="staff_password">Staff Password:</label>
+                <input type="password" id="staff_password" name="staff_password"><br><br>
+                
+                <input type="checkbox"> Remember me<br>
+                <a href="/forgot_pwd/">Forgot password</a><br><br>
+                <button type="submit" class="btn">Submit</button>
+                {% if error_staff %}
+                    <p style="color: red;">{{ error_staff }} </p>
+                {% endif %}
+            </form>
+        </div>
+        {% if input_error %}
+            <p style="color: red;">{{ input_error }} </p>
+        {% endif %}
+    </div>
+</body>
+</html>

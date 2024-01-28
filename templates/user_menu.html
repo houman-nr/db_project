@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+
+        .search_container {
+            text-align: center;
+            height: 100px;
+        }
+        
+        input[type=text] {
+            width: 20%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table-container{
+            width: 80%; /* Adjust as needed */
+            height: 400px; /* Adjust as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
+            margin: 0 auto; /* Centers the table horizontally */
+            position: relative;
+        }
+        th, td {
+            text-align: left;
+            position: sticky;
+            padding: 10px;
+        }
+        th {
+            background-color: #271fff69;
+        }
+        tr:nth-child(0) {
+            background-color: #271fff69;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Catalog</h1>
+
+    <div class="user_menu">
+        <a href="/user_menu">Home</a>
+        <a href="/user_menu/my_books">My Books</a>
+        <a href="/user_menu/my_orders">My Orders</a>
+        <a href="/user_menu/my_profile">My Profile</a>
+        <a href="/user_menu/logout">Logout</a>
+    </div>
+    
+    <!-- Advanced Search Form -->
+    <div class="search_container">
+        <form method="get">
+            <input type="text" id="searchTitle" name="title" placeholder="Search by title..." value="{{ request.GET.title }}">
+            <input type="text" id="searchAuthor" name="author" placeholder="Search by author..." value="{{ request.GET.author }}">
+            <input type="text" id="searchPublisher" name="publisher" placeholder="Search by publisher..." value="{{ request.GET.publisher }}">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    <div class="table-container">
+        <table id="bookTable">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Publisher</th>
+                <th>Action</th>
+            </tr>
+            <!-- BEGIN: Loop through books retrieved from the database -->
+            {% if books is not empty %}
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author.name }}</td>
+                        <td>{{ book.price }}$</td>
+                        <td>{{ book.stock }}</td>
+                        <td>{{ book.publisher }}</td>
+                        <td><button type="button">BUY</button></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            <!-- END: Loop through books retrieved from the database -->
+        </table>
+    </div>
+</body>
+</html>
