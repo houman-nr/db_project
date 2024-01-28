@@ -22,10 +22,12 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('signin/', views.signin_view),
     path('signup/', views.signup_view),
-    path('staff_menu/', views.staff_view),
     path('forgot_pwd/', views.forgot_pwd_view),
+    
     path('user_menu/', views.user_menu_view),
+    
+    path('staff_menu/', views.staff_view),
     path('create_book/', views.create_book_view),
-    path('user_management/', views.user_management_view),
     path('create_author/', views.create_author_view),
+    path('user_management/', views.user_management_view),
 ]

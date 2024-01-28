@@ -5,7 +5,7 @@
 </head>
 <body>
     {% csrf_token %}
-    <h1>Welcome back {{ name }}</h1>
+    <h1>Welcome back {{ name }}!</h1>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,17 +63,17 @@
         <div class="section">
             <h1>Create Book Author</h1>
             <p>for creating New Author:</p>
-            <a href="/Create_author/" class="btn">Create Author</a>
+            <a href="/create_author/" class="btn">Create Author</a>
         </div>
         <div class="section">
-            <h1>Edit books</h1>
-            <p>for editing already existing books:</p>
-            <a href="" class="btn">Sign Up</a>
+            <h1>New staff member</h1>
+            <p>To add new staff member:</p>
+            <a href="/signup/" class="btn">Create staff</a>
         </div>
         <div class="section">
             <h1>User management</h1>
             <p>managing users</p>
-            <a href="/user_management" class="btn">Sign Up</a>
+            <a href="/user_management/" class="btn">Sign Up</a>
         </div>
     </div>
 </body>

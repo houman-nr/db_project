@@ -21,21 +21,26 @@ def signup_view(request):
         return render(request, 'signup.html')
   
 
-
+# sign in page and its subpages=============================================================
 def signin_view(request):
     context = {}
     
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        user_rememberme = request.POST.get('user_rememberme')
         staff_username = request.POST.get('staff_username')
         staff_password = request.POST.get('staff_password')
+        staff_rememeberme = request.POST.get('staff_rememberme')
 
         if username and password and username != None and password != None:
             user = authenticate(request, username=username, password=password)
             
             if user is not None:
                 login(request, user)
+                request.session['username'] = username # Store username in session
+                if user_rememberme:
+                    request.session['password'] = password
                 return redirect('/user_menu/')
             else:
                 context['error_user'] = 'Invalid username or password.'
@@ -46,6 +51,8 @@ def signin_view(request):
             if staff is not None:
                 login(request, staff)
                 request.session['staff_username'] = staff_username  # Store staff_username in session
+                if staff_rememeberme:
+                    request.session['staff_password'] = staff_password
                 return redirect('/staff_menu/')
             else:
                 context['error_staff'] = "Invalid staff username or password"
@@ -54,11 +61,17 @@ def signin_view(request):
     # Default response for GET requests and unsuccessful POST requests
     return render(request, 'signin.html', context)
 
-  
+def forgot_pwd_view(request):
+    return render(request, 'forgot_pwd.html')
+# ==========================================================================================
+
+
+# staff menu and its subpages=============================================================== 
 def staff_view(request):
     staff_username = request.session.get('staff_username')
     return render(request, 'staff_menu.html', {'name': staff_username})
     
+
 def create_book_view(request):
     authors = Author.objects.all()
     if request.method == 'POST':
@@ -70,22 +83,24 @@ def create_book_view(request):
         Book.create_book(book_title, book_author, book_price, book_stock, book_publisher)
         return HttpResponse("book created")
     else:
-        return render(request, 'staff_menu.html', {'authors': authors})
+        return render(request, 'create_book.html', {'authors': authors})
+
 
 def create_author_view(request):
+    staff_username = request.session.get('staff_username')
     if request.method == 'POST':
         author_name = request.POST['name']
         Author.objects.create(name=author_name)
-        return 
-    return render(request, 'staff_menu.html')
+        return
+    return render(request, 'create_author.html', {'name': staff_username})
+
 
 def user_management_view(request):
     return render(request, 'user_management.html')
+# ==========================================================================================
 
 
-def forgot_pwd_view(request):
-    return render(request, 'forgot_pwd.html')
-
+# user menu and its subpages================================================================
 def user_menu_view(request):
     books = Book.objects.all()
     if request.method == 'POST':
@@ -105,4 +120,12 @@ def user_menu_view(request):
         
     return render(request, 'user_menu.html', {'books': books})
 
-def check_out
+def check_out_view(request):
+    return render(request, 'check_out.html')
+
+def book_ava_stocks(books):
+    for book in books:
+        if book.stock <= 0:
+            #remove from books
+            books.remove(book)
+    return books

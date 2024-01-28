@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authors</title>
+</head>
+<body>
+    {% csrf_token %}
+    <h1>You can create new Authors here, {{ name }}!</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #000000;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <div class="container">
+        <label for="name">Author Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <a href="/create_author/" class="btn">create</a>
+        <label >To create books of this Author:</label>
+        <a href="/create_book/" class="btn">Create Book</a>
+    </div>
+</body>
+</html>
