@@ -7,6 +7,11 @@ from django.db import models
 class Author(models.Model):
     name = models.CharField(max_length=200)
     
+    @classmethod
+    def create_author(cls, author_name):
+        new_author = cls(name=author_name)
+        new_author.save()
+    
 # transaction table
 class Transaction(models.Model):
     time = models.DateTimeField(auto_now_add=True)
@@ -36,8 +41,8 @@ class Book(models.Model):
             borowed_item.save()
     
     @classmethod
-    def return_book(self):
-        self.stock += amount
+    def return_book(self, user_profile, book):
+        self.stock += 1
         self.save()       
         
 # user profile table

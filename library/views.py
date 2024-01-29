@@ -90,8 +90,8 @@ def create_author_view(request):
     staff_username = request.session.get('staff_username')
     if request.method == 'POST':
         author_name = request.POST['name']
-        Author.objects.create(name=author_name)
-        return
+        print(author_name)
+        Author.create_author(name=author_name)
     return render(request, 'create_author.html', {'name': staff_username})
 
 
