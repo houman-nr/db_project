@@ -120,15 +120,24 @@ def user_menu_view(request):
         
         # Get the book the user wants to borrow
         book_id = request.POST.get('book_id')
-        amount = request.POST.get('amount')
+        amount = int(request.POST.get('amount'))
         book = Book.objects.get(id=book_id)
 
         # Get the current user
         temp_username = request.session.get('username')
-        user = UserProfile.objects.get(User.objects.get(username=temp_username))
+        user = User.objects.get(username=temp_username)
+
+        # Check if a UserProfile already exists for this user
+        if not UserProfile.objects.filter(user=user).exists():
+            # If not, create a new UserProfile object
+            UserProfile.objects.create(user=user)
+
+        # Get the UserProfile for the current user
+        user_profile = UserProfile.objects.get(user=user)
+
 
         # Create a new Borrow object
-        Borrow.create_borrow(user, book)
+        Borrow.create_borrow(user_profile, book)
         
         # make necessary changes to the book table
         Book.borrow_book(book, amount)
@@ -136,7 +145,8 @@ def user_menu_view(request):
     return render(request, 'user_menu.html', {'books': books})
 
 def my_books_view(request):
-    user = User.objects.get(username=request.session.get('username'))
+    temp_username = request.session.get('username')
+    user = User.objects.get(username=temp_username)
     borrowed_books = UserProfile.get_borrowed_books(user)
     return render(request, 'my_books.html', {'books': borrowed_books})
 

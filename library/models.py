@@ -27,15 +27,16 @@ class Book(models.Model):
         book.save()
 
     @classmethod
-    def borrow_book(self, amount):
-        if self.stock < amount:
+    def borrow_book(self, book, amount):
+        borowed_item = self.objects.get(id=book.id)
+        if borowed_item.stock < amount:
             raise ValueError('Not enough stock')
         else:
-            self.stock -= amount
-            self.save()
+            borowed_item.stock -= amount
+            borowed_item.save()
     
     @classmethod
-    def return_book(self, amount):
+    def return_book(self):
         self.stock += amount
         self.save()       
         
